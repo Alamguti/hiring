@@ -1,6 +1,8 @@
 <template>
+    
     <div class="container">
         <div class="col-12">
+            <prueba-component></prueba-component>
             <div class="row">
                 <h1 class="text-center text-white p-5">DASHBOARD</h1>
             </div>
@@ -18,7 +20,7 @@
                     </form>
                 </div>
             </div>
-
+            
             <!-- Agregar tabla de tareas -->
             <div class="row">
                 <div class="col-8 offset-2">

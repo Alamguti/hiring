@@ -1,7 +1,24 @@
-import * as bootstrap from 'bootstrap'
+// Importa los estilos de Bootstrap
+import 'bootstrap/dist/css/bootstrap.css';
 
-import {createApp} from 'vue'
+// Importa Bootstrap JavaScript
+import * as bootstrap from 'bootstrap';
 
-import App from './App.vue'
+// Importa el componente Vue
+import PruebaComponent from './components/PruebaComponent.vue';
 
-createApp(App).mount("#app")
+// Importa la función createApp
+import { createApp } from 'vue';
+
+// Importa la aplicación Vue principal
+import App from './App.vue';
+
+// Crea la aplicación Vue
+const app = createApp(App);
+
+// Registra el componente globalmente
+app.component('prueba-component', PruebaComponent);
+
+// Monta la aplicación en el elemento con el ID "app"
+app.mount('#app');
+

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TareaController;
 use App\Http\Middleware\EnsureTokenIsValid; // Asegúrate de importar el middleware adecuado
+use App\Http\Controllers\Auth\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +15,7 @@ use App\Http\Middleware\EnsureTokenIsValid; // Asegúrate de importar el middlew
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

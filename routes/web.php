@@ -4,7 +4,6 @@ use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppController;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,9 +14,6 @@ use App\Http\Controllers\AppController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
 
 // Rutas después del inicio de sesión
 Route::middleware(['auth'])->group(function () {

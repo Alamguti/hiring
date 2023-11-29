@@ -256,7 +256,7 @@ export default {
       this.indexSelecionado = index;
       this.tareaEditada = {...this.tareas[index]}
       // this.abrirModal('modalForm');
-    }
+    },
   }
 }
 </script>

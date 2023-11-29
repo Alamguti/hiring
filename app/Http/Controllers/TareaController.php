@@ -25,7 +25,9 @@ class TareaController extends Controller
         return response()->json($tarea, 201);
     }
 
-    public  function eliminarTarea(Task $tarea){
+    public  function eliminarTarea($tareaId){
+        $tarea = Task::find($tareaId);
+        
         $tarea->delete();
         return response()->json(['message' => 'Tarea eliminada']);
     }

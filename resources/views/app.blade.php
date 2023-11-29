@@ -7,7 +7,6 @@
 
     <title>Hiring</title>
     @vite('resources/css/app.scss')
-
 </head>
 
 <body class="bg-primary">

@@ -22,7 +22,7 @@ class TareaController extends Controller
             'nombre' => $request->nombre,
             'usuario_id' =>$request->usuario['id'],
         ]);
-        return response()->json($tarea, 201);
+        return response()->json(['message'=>'Tarea agregada','tarea'=>$tarea]);
     }
 
     public  function eliminarTarea($tareaId){
@@ -38,6 +38,6 @@ class TareaController extends Controller
         ]);
 
         $tarea->update($request->all());
-        return response()->json($tarea, 200);
+        return response()->json(['message'=>'Tarea editada correctamente']);
     }
 }

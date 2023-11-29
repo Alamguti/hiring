@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\TareaController;
+use App\Http\Middleware\EnsureTokenIsValid; // Asegúrate de importar el middleware adecuado
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,4 +17,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::middleware([EnsureTokenIsValid::class])->group(function () {
+    Route::get('/tareas', [TareaController::class, 'listarTareas']);
+    Route::post('/agregar-tarea', [TareaController::class, 'agregarTarea']);
+    Route::put('/editar-tarea/{tarea}', [TareaController::class, 'editarTarea']);
+    Route::delete('/eliminar-tarea/{tarea}', [TareaController::class, 'eliminarTarea']);
 });

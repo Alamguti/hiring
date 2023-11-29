@@ -1,9 +1,7 @@
 <template>
   <div class="mt-3">
-      <h2 class="text-white">Usuario:</h2>
-      <pre class="h3">{{ usuario.name }} - {{ usuario.email }}</pre>
-
-      <!-- Resto de tu código ... -->
+    <h2 class="text-white">Usuario:</h2>
+    <pre class="h3">{{ usuario.name }} - {{ usuario.email }}</pre>
   </div>
 </template>
 

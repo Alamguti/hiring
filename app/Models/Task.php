@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tarea extends Model
+class Task extends Model
 {
     protected $fillable = ['nombre', 'usuario_id'];
 

@@ -19,6 +19,8 @@ const app = createApp(App);
 // Registra el componente globalmente
 app.component('prueba-component', PruebaComponent);
 
+const user = window.user || null;
+app.config.globalProperties.$user = user;
 // Monta la aplicación en el elemento con el ID "app"
-app.mount('#app');
+app.mount('#laravel-app');
 

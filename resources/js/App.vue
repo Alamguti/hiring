@@ -1,5 +1,4 @@
 <template>
-    
     <div class="container">
         <div class="col-12">
             <prueba-component></prueba-component>
@@ -41,8 +40,8 @@
                                 <th class="col-2" scope="row">{{ tarea.id }}</th>
                                 <td class="col-6">{{ tarea.nombre }}</td>
                                 <td class="col-4">
-                                    <button type="button" class="btn btn-primary">Editar</button> &nbsp;
-                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                    <button @click="editarTarea(index)" type="button" class="btn btn-primary">Editar</button> &nbsp;
+                                    <button @click="eliminarTarea(index)" type="button" class="btn btn-danger">Eliminar</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -58,20 +57,58 @@ export default {
     data() {
         return {
             nuevaTarea: "", // Almacena el nombre de la nueva tarea
-            tareas: [] // Almacena la lista de tareas
+            tareas: [], // Almacena la lista de tareas
+            usuario:{}
         };
     },
+    mounted(){
+        this.listarTareas()
+        this.usuario = this.$user;
+    },
     methods: {
-        agregarTarea() {
-            // Agregar la nueva tarea al array de tareas
-            this.tareas.push({
-                id: this.tareas.length + 1,
-                nombre: this.nuevaTarea
-            });
 
-            // Limpiar el campo después de agregar la tarea
-            this.nuevaTarea = "";
-        }
+        async listarTareas(){
+            try{
+                const response = await fetch('api/tareas')
+               
+                if (response.ok) {
+                    const data = await response.json()
+                    this.tareas = data
+                }
+                
+            }catch (error){
+                console.error('Error al cargar tareas:', error)
+            }
+        },
+        async agregarTarea() {
+            console.log(this.usuario)
+           try{
+            const response = await fetch('api/agregar-tarea',{
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify({
+                    nombre:this.nuevaTarea,
+                    usuario:this.usuario
+                }),    
+            })
+
+            const data = await response.json()
+            this.tareas.push(data)
+            this.nuevaTarea = ""
+
+           }catch(error){
+                console.error('Error al agregar Tarea:' ,error)
+           }
+            
+        },
+        editarTarea(index){
+
+        },
+        eliminarTarea(index){
+
+        },
     }
 };
 </script>

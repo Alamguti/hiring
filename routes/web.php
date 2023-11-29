@@ -2,8 +2,6 @@
 
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\EnsureTokenIsValid;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AppController;
 
 
@@ -18,17 +16,13 @@ use App\Http\Controllers\AppController;
 |
 */
 
-Route::middleware([EnsureTokenIsValid::class])->group(function () {
-    Route::get('/login', [LoginController::class, 'loginForm'])->name('login');
-    Route::post('/login', [LoginController::class, 'login']);
-});
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
 
-Route::middleware([EnsureTokenIsValid::class])->group(function () {
-    Route::get('/register', [RegisterController::class, 'registerForm'])->name('register');
-    Route::post('/register', [RegisterController::class, 'register']);
-});
-
-// Ruta después del inicio de sesión
+// Rutas después del inicio de sesión
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [AppController::class, 'index'])->name('app');
+   
 });
+
+Auth::routes();

@@ -66,7 +66,31 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 
+## Instalacion de dependencias
 
-php artisan db:seed --class=UserSeeder
-php artisan make:listener EnviarCorreoUsuarioRegistrado --event=UsuarioRegistrado
-php artisan make:mail CorreoDeBienvenida
+composer install
+npm install
+
+creacion de base de datos
+
+## Se puede copiar el archivo .env.example
+
+Creacion de archivo .env
+
+## Creacion de tablas
+
+php artisan migrate
+
+## Crea un usuario ya definido
+
+php artisan db:seed
+
+## Genera una clave para la aplicacion
+
+php artisan key:generate
+
+##  Compila los assets
+npm run dev 
+
+## Al registrar un usuario se ejecuta un evento que envia un correo, agregar credenciales del servidor de correos en el archivo .env.
+## Si no quiere enviar un correo, comentar la linea "event(new UsuarioRegistrado($user));" en el controlador de registro llamado "RegisterController.php".

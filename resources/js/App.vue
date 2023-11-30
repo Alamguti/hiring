@@ -174,8 +174,9 @@ export default {
   methods: {
 
     async listarTareas() {
+      this.usuario = this.$user;
       try {
-        const response = await fetch('api/tareas')
+        const response = await fetch(`api/tareas/${this.usuario.id}`)
 
         if (response.ok) {
           const data = await response.json()
@@ -282,7 +283,7 @@ export default {
 
         if(response.ok){
           const responseData = await response.json()
-          
+
           this.resposneMessage = responseData.message
           this.listarTareas()
           this.abrirModal('modal')

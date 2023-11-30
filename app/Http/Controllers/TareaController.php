@@ -10,9 +10,12 @@ use Illuminate\Http\Request;
 class TareaController extends Controller
 {
     //
-    public function listarTareas()
+    public function listarTareas(Request $request)
     {
-        $tareasPendientes = Task::where('completada', false)->get();
+        $idUsuario = $request->idUsuario;
+        $tareasPendientes = Task::where('completada', false)
+        ->where('usuario_id',$idUsuario)
+        ->get();
         $tareasCompletadas = Task::where('completada', true)->get();
         return response()->json(['tareasPendientes' => $tareasPendientes, 'tareasCompletadas' => $tareasCompletadas]);
     }

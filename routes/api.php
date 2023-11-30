@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware([EnsureTokenIsValid::class])->group(function () {
-    Route::get('/tareas', [TareaController::class, 'listarTareas']);
+    Route::get('/tareas/{idUsuario}', [TareaController::class, 'listarTareas']);
     Route::post('/agregar-tarea', [TareaController::class, 'agregarTarea']);
     Route::put('/editar-tarea/{tarea}', [TareaController::class, 'editarTarea']);
     Route::delete('/eliminar-tarea/{tarea}', [TareaController::class, 'eliminarTarea']);

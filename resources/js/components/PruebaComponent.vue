@@ -1,7 +1,7 @@
 <template>
   <div class="mt-3">
-    <h2 class="text-white">Usuario:</h2>
-    <pre class="h3">{{ usuario.name }} - {{ usuario.email }}</pre>
+    <h2 class="text-white">Usuario: {{ usuario.name }}</h2>
+    <!-- <pre class="h3">{{ usuario.name }} - {{ usuario.email }}</pre> -->
   </div>
 </template>
 

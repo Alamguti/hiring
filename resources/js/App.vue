@@ -7,7 +7,7 @@
       </div>
       <!-- Formulario para agregar nuevas tareas -->
       <div class="row">
-        <div class="col-8 offset-2 pt-5">
+        <div class="col-6 offset-3 pt-5">
           <!-- <h2 class="text-center text-white">Agregar Nueva Tarea</h2> -->
 
           <form @submit.prevent="agregarTarea">
@@ -15,15 +15,51 @@
               <label for="tarea" class="form-label text-white">Nombre de la Tarea</label>
               <input type="text" class="form-control" id="tarea" v-model="nuevaTarea" required />
             </div>
-            <button type="submit" class="btn btn-success">Agregar Tarea</button>
+            <div class="text-center">
+              <button type="submit" class="btn btn-success">Agregar Tarea</button>
+            </div>
+
           </form>
         </div>
       </div>
 
       <!-- Agregar tabla de tareas -->
       <div class="row">
-        <div class="col-8 offset-2">
-          <h2 class="text-center text-white pb-3">Lista de Tareas</h2>
+        <div class="col-6">
+          <h2 class="text-center text-white pb-3 mt-3">Tareas Pendientes</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tarea</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Utilizar v-for para iterar sobre las tareas -->
+              <tr v-for="(tarea, index) in tareasPendientes" :key="index">
+                <th class="col-2" scope="row">{{ tarea.id }}</th>
+                <td class="col-6">{{ tarea.nombre }}</td>
+                <td class="col-4 text-nowrap">
+                  <button @click="abrirModalForm(index,'tareasPendientes')" type="button" class="btn btn-primary">
+                    Editar
+                  </button>
+                  &nbsp;
+                  <button @click="tareaCompletada(index,'tareasPendientes')" type="button" class="btn btn-success">
+                    Completa
+                  </button>
+                  &nbsp;
+                  <button @click="eliminarTarea(index,'tareasPendientes')" type="button" class="btn btn-danger">
+                    Eliminar
+                  </button>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-6">
+          <h2 class="text-center text-white pb-3 mt-3">Tareas completadas</h2>
 
           <!-- Tabla de tareas con Bootstrap -->
           <table class="table">
@@ -36,15 +72,15 @@
             </thead>
             <tbody>
               <!-- Utilizar v-for para iterar sobre las tareas -->
-              <tr v-for="(tarea, index) in tareas" :key="index">
+              <tr v-for="(tarea, index) in tareasCompletadas" :key="index">
                 <th class="col-2" scope="row">{{ tarea.id }}</th>
                 <td class="col-6">{{ tarea.nombre }}</td>
                 <td class="col-4">
-                  <button @click="abrirModalForm(index)" type="button" class="btn btn-primary">
+                  <button @click="abrirModalForm(index,'tareasCompletadas')" type="button" class="btn btn-primary">
                     Editar
                   </button>
                   &nbsp;
-                  <button @click="eliminarTarea(index)" type="button" class="btn btn-danger">
+                  <button @click="eliminarTarea(index,'tareasCompletadas')" type="button" class="btn btn-danger">
                     Eliminar
                   </button>
                 </td>
@@ -95,7 +131,8 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button @click="cerrarModalForm()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button @click="cerrarModalForm()" type="button" class="btn btn-secondary"
+              data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
@@ -112,13 +149,14 @@ export default {
   data() {
     return {
       nuevaTarea: "", // Almacena el nombre de la nueva tarea
-      tareas: [], // Almacena la lista de tareas
+      tareasCompletadas: [], // Almacena la lista de tareas
+      tareasPendientes: [],
       usuario: {},
       resposneMessage: "",
       showModal: false,
       showModalForm: false,
       tareaSeleccionada: {},
-      tareaEditada:{},
+      tareaEditada: {},
       indexSelecionado: null
     };
   },
@@ -141,7 +179,8 @@ export default {
 
         if (response.ok) {
           const data = await response.json()
-          this.tareas = data
+          this.tareasPendientes = data.tareasPendientes
+          this.tareasCompletadas = data.tareasCompletadas
         }
 
       } catch (error) {
@@ -157,15 +196,16 @@ export default {
           },
           body: JSON.stringify({
             nombre: this.nuevaTarea,
-            usuario: this.usuario
+            usuario: this.usuario,
           }),
         })
         if (response.ok) {
           const responseData = await response.json()
-
+          console.log(responseData)
           this.resposneMessage = responseData.message
 
-          this.tareas.push(responseData.tarea)
+          // this.tareas.push(responseData.tarea)
+          this.listarTareas()
           this.nuevaTarea = ""
           this.abrirModal('modal')
         }
@@ -203,8 +243,13 @@ export default {
       // Cierra el modal después de guardar cambios o manejar errores
       this.cerrarModalForm()
     },
-    async eliminarTarea(index) {
-      const tareaId = this.tareas[index].id
+    async eliminarTarea(index,tareas) {
+      let tareaId = 0
+      if(tareas === 'tareasCompletadas'){
+         tareaId = this.tareasCompletadas[index].id
+      }else{
+         tareaId = this.tareasPendientes[index].id
+      }
 
       try {
         const response = await fetch(`api/eliminar-tarea/${tareaId}`, {
@@ -225,6 +270,27 @@ export default {
         console.error('Error al eliminar la tarea:', error);
       }
     },
+    async tareaCompletada(index){
+      this.tareaEditada = { ...this.tareasPendientes[index] }
+      try{
+        const response = await fetch(`api/cambiar-estado-tarea/${this.tareaEditada.id}`,{
+          method:'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+
+        if(response.ok){
+          const responseData = await response.json()
+          
+          this.resposneMessage = responseData.message
+          this.listarTareas()
+          this.abrirModal('modal')
+        }
+      }catch(error){
+        console.error('Error al cambiar estado de la tarea:', error);
+      }
+    },
     abrirModal(refName) {
       this.showModal = true;
 
@@ -236,26 +302,33 @@ export default {
 
       // Mostrar el modal correspondiente
       const modal = document.getElementById(refName);
-      if(modal){
+      if (modal) {
         modal.classList.add('show', 'fade');
         modal.setAttribute('aria-hidden', 'false');
         modal.focus();
       }
-     
+
 
     },
 
     cerrarModal() {
       this.showModal = false
     },
-    cerrarModalForm(){
+    cerrarModalForm() {
       this.showModalForm = false
     },
-    abrirModalForm(index) {
+    abrirModalForm(index,tareas) {
       this.showModalForm = true
       this.indexSelecionado = index;
-      this.tareaEditada = {...this.tareas[index]}
-      // this.abrirModal('modalForm');
+
+      if(tareas === 'tareasPendientes'){
+        this.tareaEditada = { ...this.tareasPendientes[index] }
+        // this.abrirModal('modalForm');
+      }else{
+        this.tareaEditada = { ...this.tareasCompletadas[index] }
+      }
+      console.log(tareas,this.tareaEditada)
+      
     },
   }
 }

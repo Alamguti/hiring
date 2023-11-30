@@ -26,4 +26,5 @@ Route::middleware([EnsureTokenIsValid::class])->group(function () {
     Route::post('/agregar-tarea', [TareaController::class, 'agregarTarea']);
     Route::put('/editar-tarea/{tarea}', [TareaController::class, 'editarTarea']);
     Route::delete('/eliminar-tarea/{tarea}', [TareaController::class, 'eliminarTarea']);
+    Route::put('/cambiar-estado-tarea/{tarea}', [TareaController::class, 'cambiarEstadoTarea']);
 });

@@ -62,12 +62,6 @@ abstract class DuskTestCase extends BaseTestCase
             )
         );
     }
-    protected static function startChromeDriver()
-    {
-        // Adjust the path as necessary
-        $chromeDriverPath = base_path('vendor/laravel/dusk/bin/chromedriver-linux64/chromedriver');
-        exec($chromeDriverPath . ' > /dev/null 2>&1 &');
-    }
     /**
      * Determine whether the Dusk command has disabled headless mode.
      */

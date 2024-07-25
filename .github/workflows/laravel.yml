@@ -49,6 +49,9 @@ jobs:
     - name: Make ChromeDriver Executable
       run: chmod +x ./vendor/laravel/dusk/bin/chromedriver-linux64
 
+    - name: Set Permissions
+      run: chmod -R +x ./vendor/laravel/dusk/bin/
+      
     - name: Start ChromeDriver
       run: ./vendor/laravel/dusk/bin/chromedriver-linux64/chromedriver 
 

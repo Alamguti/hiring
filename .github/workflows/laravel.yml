@@ -60,7 +60,7 @@ jobs:
 
     - name: Run Dusk Tests
       run:   |        
-        chmod -R 0755 vendor/laravel/dusk/bin/
+       chmod -R +x ./vendor/laravel/dusk/bin/
         php artisan dusk 
       env:
         DB_CONNECTION: sqlite

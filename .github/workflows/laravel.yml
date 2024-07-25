@@ -24,6 +24,9 @@ jobs:
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
+    - name: Install Laravel Dusk
+      run: php artisan dusk:install
+
     - name: Generate key
       run: php artisan key:generate
 
@@ -35,34 +38,30 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
 
- #   - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
-  #    env:
-   #     DB_CONNECTION: sqlite
-    #    DB_DATABASE: database/database.sqlite
-    #  run: php artisan test
-
     - name: Install Latest Chrome
       run: |
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
         sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get install -f -y
 
-    - name: Upgrade Chrome Driver
+    - name: Download ChromeDriver
       run: php artisan dusk:chrome-driver
+
+    - name: List Files in Chromedriver Directory
+      run: ls -l ./vendor/laravel/dusk/bin/
 
     - name: Make ChromeDriver Executable
       run: chmod +x ./vendor/laravel/dusk/bin/chromedriver-linux
-      
-    - name: Start Chrome Driver
+
+    - name: Start ChromeDriver
       run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
 
     - name: Run Laravel Server
       run: php artisan serve > /dev/null 2>&1 &
 
     - name: Run Dusk Tests
-      run: |
-        chmod -R 0755 vendor/laravel/dusk/bin/
-        php artisan dusk
+      run: php artisan dusk
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
         APP_URL: http://127.0.0.1:8000
+

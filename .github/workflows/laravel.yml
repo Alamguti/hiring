@@ -53,10 +53,10 @@ jobs:
       run: chmod -R +x ./vendor/laravel/dusk/bin/
       
     - name: Start ChromeDriver
-      run: ./vendor/laravel/dusk/bin/chromedriver-linux64/chromedriver 
+      run: ./vendor/laravel/dusk/bin/chromedriver-linux64/chromedriver  > /dev/null 2>&1 &
 
     - name: Run Laravel Server
-      run: php artisan serve 
+      run: php artisan serve > /dev/null 2>&1 &
 
     - name: Run Dusk Tests
       run: php artisan dusk 

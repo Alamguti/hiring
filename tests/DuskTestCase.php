@@ -71,7 +71,10 @@ abstract class DuskTestCase extends BaseTestCase
         return isset($_SERVER['DUSK_HEADLESS_DISABLED']) ||
             isset($_ENV['DUSK_HEADLESS_DISABLED']);
     }
-
+    protected static function chromeDriverBinary()
+    {
+        return base_path('vendor/laravel/dusk/bin/chromedriver-linux64/chromedriver');
+    }
     /**
      * Determine if the browser window should start maximized.
      */

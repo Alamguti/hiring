@@ -47,7 +47,7 @@ jobs:
       run: ls -l ./vendor/laravel/dusk/bin/chromedriver-linux64/
 
     - name: Make ChromeDriver Executable
-      run: chmod +x ./vendor/laravel/dusk/bin/chromedriver-linux64/chromedriver
+      run: chmod +x ./vendor/laravel/dusk/bin/chromedriver-linux64
 
     - name: Start ChromeDriver
       run: ./vendor/laravel/dusk/bin/chromedriver-linux64/chromedriver > /dev/null 2>&1 &

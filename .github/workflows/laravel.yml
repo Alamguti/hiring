@@ -24,9 +24,6 @@ jobs:
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-    - name: Install Laravel Dusk
-      run: php artisan dusk:install
-
     - name: Generate key
       run: php artisan key:generate
 

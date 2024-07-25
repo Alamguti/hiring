@@ -47,13 +47,13 @@ jobs:
       run: php artisan dusk:chrome-driver
 
     - name: List Files in Chromedriver Directory
-      run: ls -l ./vendor/laravel/dusk/bin/
+      run: ls -l ./vendor/laravel/dusk/bin/chromedriver-linux64/
 
     - name: Make ChromeDriver Executable
-      run: chmod +x ./vendor/laravel/dusk/bin/chromedriver-linux
+      run: chmod +x ./vendor/laravel/dusk/bin/chromedriver-linux64/chromedriver
 
     - name: Start ChromeDriver
-      run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
+      run: ./vendor/laravel/dusk/bin/chromedriver-linux64/chromedriver > /dev/null 2>&1 &
 
     - name: Run Laravel Server
       run: php artisan serve > /dev/null 2>&1 &
@@ -64,4 +64,5 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
         APP_URL: http://127.0.0.1:8000
+
 

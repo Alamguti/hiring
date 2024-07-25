@@ -56,7 +56,7 @@ jobs:
       run: php artisan serve > /dev/null 2>&1 &
 
     - name: Run Dusk Tests
-      run: php artisan dusk --no-tty
+      run: php artisan dusk 
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
